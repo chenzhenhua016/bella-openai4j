@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a queue take operation to retrieve tasks from one or more queues
@@ -30,6 +31,12 @@ public class Take {
      * Maximum number of tasks to retrieve
      */
     private Integer size;
+
+    /**
+     * Worker capacity information for the take operation
+     */
+    private WorkerCapacity worker;
+
     /**
      * worker process timeout for a task
      */
@@ -51,4 +58,21 @@ public class Take {
      */
     @JsonProperty("min_age_seconds")
     private long minAgeSeconds;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class WorkerCapacity {
+        /**
+         * Unique identifier of the worker
+         */
+        private String id;
+
+        /**
+         * key: fullQueueName, for example queue-a:0
+         * value: current remaining capacity for the queue
+         */
+        private Map<String, Integer> capacities;
+    }
 }
